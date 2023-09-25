@@ -9,9 +9,8 @@
 
 - Rename `~/.env.example` to `.env`
 - Run `docker-compose up -d`
-- Run compose install `docker exec -it app bash`
+- Go inside the container `docker exec -it app bash`
 - Once inside the container, run `composer install`
-- Run unit test, run `composer test`
 - Exit the app container, type `exit`
 
 ## Seed DATABASE schema
@@ -27,6 +26,15 @@
 - Install libraries, run `npm install`
 - Run `npm run dev`
 - Go to [http://127.0.0.1:5173/](http://127.0.0.1:5173/)
+
+## Run unit test
+- Go inside the container `docker exec -it app bash`
+- Run unit test with `composer test`
+
+## Suggestion
+- With unlimited time, the database connection can be abstracted more into its own configurations
+- Add ability to create migration files like the famous PHP frameworks
+- Process the data inside a controller instead of directly in the route file inside anonymous function
 
 ## Notes
 - Used [Simple PHP Router](https://github.com/skipperbent/simple-php-router) for handling routing
