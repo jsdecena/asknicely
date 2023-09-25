@@ -26,6 +26,8 @@ class EmployeeService
       $stmt = $this->pdo->query($select);
 
       $employees = [];
+      $totalSalary = [];
+      $companyCount = [];
       while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
           $employees[] = [
               'id' => $row['id'],
@@ -34,7 +36,28 @@ class EmployeeService
               'company_name' => $row['company_name'],
               'salary' => $row['salary'],
           ];
+
+        if (!isset($totalSalary[$row['company_name']])) {
+          $totalSalary[$row['company_name']] = 0;
+          $companyCount[$row['company_name']] = 0;
+        }
+
+        $totalSalary[$row['company_name']] += $row['salary'];
+        $companyCount[$row['company_name']]++;
       }
+
+      // Get the average salary of the sum of salary per company divide the total company count
+      $companyAverageSalaries = [];
+      foreach ($totalSalary as $company => $total) {
+        $companyAverageSalaries[$company] = $total / $companyCount[$company];
+      }
+
+      // MErge back to the employees array
+      foreach ($employees as &$employee) {
+        $company = $employee['company_name'];
+        $employee['salary'] = $companyAverageSalaries[$company];
+      }
+
       return $employees;
   }
 
@@ -102,5 +125,10 @@ class EmployeeService
       } catch (PDOException $e) {
           throw new Error($e->getMessage());
       }
+  }
+
+  private function getAverageSalary(array $companyDetails)
+  {
+    var_dump($companyDetails);
   }
 }

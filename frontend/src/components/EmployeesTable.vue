@@ -7,7 +7,7 @@
           <th scope="col">Company</th>
           <th scope="col">Employee</th>
           <th scope="col">Email</th>
-          <th scope="col">Salary</th>
+          <th scope="col">Average Salary</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
