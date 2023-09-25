@@ -6,7 +6,7 @@ use AskNicely\Exceptions\FileNotFoundException;
 use AskNicely\Services\EmployeeService;
 use PHPUnit\Framework\TestCase;
 
-final class EmployeeTest extends TestCase
+final class EmployeeUnitTest extends TestCase
 {
   public function test_it_can_parse_csv(): void
   {

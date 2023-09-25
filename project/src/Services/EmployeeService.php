@@ -10,35 +10,33 @@ use PDOException;
 
 class EmployeeService
 {
-    private PDO $pdo;
+  private PDO $pdo;
 
-    private string $table = 'employees';
+  private string $table = 'employees';
 
-    public function __construct()
-    {
-        $this->pdo = DatabaseService::createConnection();
-    }
+  public function __construct()
+  {
+      $this->pdo = DatabaseService::createConnection();
+  }
 
-    // Get the list of employees
-    public function getList(): array
-    {
-        $select = 'SELECT id, name, email, company_name, salary FROM employees ORDER BY id';
-        $stmt = $this->pdo->query($select);
+  // Get the list of employees
+  public function getList(): array
+  {
+      $select = "SELECT id, name, email, company_name, salary FROM $this->table ORDER BY id";
+      $stmt = $this->pdo->query($select);
 
-        $employees = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $employees[] = [
-                'id' => $row['id'],
-                'name' => $row['name'],
-                'email' => $row['email'],
-                'company_name' => $row['company_name'],
-                'salary' => $row['salary'],
-            ];
-        }
-        return $employees;
-    }
-
-    // Import the csv that contains the employees and their companies
+      $employees = [];
+      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          $employees[] = [
+              'id' => $row['id'],
+              'name' => $row['name'],
+              'email' => $row['email'],
+              'company_name' => $row['company_name'],
+              'salary' => $row['salary'],
+          ];
+      }
+      return $employees;
+  }
 
   /**
    * @throws FileNotFoundException
@@ -72,37 +70,37 @@ class EmployeeService
       }
     }
 
-    public function updateEmail(int $id, string $email): void
-    {
-        try {
-            $stmt = $this->pdo->prepare("UPDATE $this->table SET email = :email WHERE id = :id");
-            $stmt->execute(['email' => $email, 'id' => $id]);
-        }  catch (PDOException $e) {
-            throw new Error($e->getMessage());
-        }
-    }
+  public function updateEmail(int $id, string $email): void
+  {
+      try {
+          $stmt = $this->pdo->prepare("UPDATE $this->table SET email = :email WHERE id = :id");
+          $stmt->execute(['email' => $email, 'id' => $id]);
+      }  catch (PDOException $e) {
+          throw new Error($e->getMessage());
+      }
+  }
 
-    public function save(
-        string $name,
-        string $company,
-        string $email,
-        string $salary
-    ): void
-    {
-        try {
+  public function save(
+      string $name,
+      string $company,
+      string $email,
+      string $salary
+  ): void
+  {
+      try {
 
-            $stmt = $this->pdo->prepare("INSERT INTO $this->table (name, company_name, email, salary) VALUES (:name, :company_name, :email, :salary)");
+          $stmt = $this->pdo->prepare("INSERT INTO $this->table (name, company_name, email, salary) VALUES (:name, :company_name, :email, :salary)");
 
-            // Bind parameters
-            $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':company_name', $company);
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':salary', $salary);
+          // Bind parameters
+          $stmt->bindParam(':name', $name);
+          $stmt->bindParam(':company_name', $company);
+          $stmt->bindParam(':email', $email);
+          $stmt->bindParam(':salary', $salary);
 
-            $stmt->execute();
+          $stmt->execute();
 
-        } catch (PDOException $e) {
-            throw new Error($e->getMessage());
-        }
-    }
+      } catch (PDOException $e) {
+          throw new Error($e->getMessage());
+      }
+  }
 }
