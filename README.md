@@ -9,7 +9,7 @@
 
 - Rename `~/.env.example` to `.env`
 - Run `docker-compose up -d`
-- Run compose install `docker exec -it app sh`
+- Run compose install `docker exec -it app bash`
 - Once inside the container, run `composer install`
 - Run unit test, run `composer test`
 - Exit the app container, type `exit`
@@ -17,7 +17,7 @@
 ## Seed DATABASE schema
 
 - It is important that the docker containers are running. Run `docker ps` to check
-- If database is running, run the database migration with `docker exec -it database sh`
+- If database is running, run the database migration with `docker exec -it database bash`
 - Once inside the database container, run `psql -h localhost -d homestead -U postgres -f employees.sql`
 - Exit the DB container, type `exit`
 
